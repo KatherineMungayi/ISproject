@@ -1,0 +1,65 @@
+{% extends 'macro.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<h2>Image Upload page</h2>
+
+<style>
+  h1 {
+  font-size: 20px;
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+img {
+height: 60px;
+}
+</style>
+
+<div class="col-md-20 offset-md-3 mt-5">
+   <br>
+   <h1>Upload Chest radiograph for prediction</h1>
+   <form accept-charset="UTF-8" action="{{ url_for('predict') }}"  method="POST" enctype="multipart/form-data" >
+     <div class="form-group">
+       <label for="first_name">First Name</label>
+       <input type="text" name="first_name" class="form-control" id="first_name" placeholder="Enter Patient's first name" required="required">
+     </div>
+     <div class="form-group">
+      <label for="surname"> Surname</label>
+      <input type="text" name="surname" class="form-control" id="surname" placeholder="Enter Patient's Surname" required="required">
+    </div>
+    <div class="form-group">
+      <label for="gender"> Gender</label>
+      
+      <select class="form-control" name = "gender" id="gender" placeholder = "Choose patient's gender" required>
+        <option>Female</option>
+        <option>Male</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="age">Age</label>
+      <input type="number" name="age" class="form-control" id="age" placeholder="Enter Patient's age" required="required">
+    </div>
+    
+     <div class="form-group">
+       <label for="email_address" required="required">Email address</label>
+       <input type="email" name="email_address" class="form-control" id="email_address"  placeholder="Enter Patient's email address" required>
+     </div>
+     <div class="form-group">
+      <label for="phone_number" required="required">Phone Number</label>
+      <input type="phone_number" name="phone_number" class="form-control" id="phone_number"  placeholder="Enter Patient's phone number" required>
+    </div>
+    
+     <hr>
+     <div class="form-group mt-3">
+       <label class="mr-2">Upload Image :</label>
+       <input type="file" name="image" id="image">
+     </div>
+     <hr>
+     <button type="submit" class="btn btn-dark">Submit</button>
+   </form>
+</div> 
+
+{% endblock %}

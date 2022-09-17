@@ -1,0 +1,36 @@
+{% extends 'macro.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<h2>Home Page</h2>
+<p>Welcome back, {{session ['username'] }} !</p>
+
+<div class="row">
+    <div class="col-sm-6">
+      <div class="card">
+        <i class="fa solid fa-stethoscope fa-10x " style="position: center;" ></i>
+        <!--<img class="card-img-top" src="static\images\xray.png" width="10px"  > -->
+        <div class="card-body">
+          
+          <h5 class="card-title">Special title treatment</h5>
+          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+          <a href="{{ url_for('upload') }}" class="btn btn-dark btn-lg">Upload Chest Radiograph</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="card">
+        <i class="fa-solid fa-book-medical fa-10x center" ></i>
+       <!-- <img class="card-img-top" src="static\images\history.png" width="10px"  > -->
+
+        <div class="card-body">
+          <h5 class="card-title">Special title treatment</h5>
+          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+          <a href="#" class="btn btn-dark btn-lg">View Patient history</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
