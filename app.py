@@ -30,54 +30,6 @@ app.config['MYSQL_DB'] =  'tb_detection_system'
 UPLODED_IMAGES = r'C:\xampp\htdocs\TB_det_CNN\static\uploaded'
 db=MySQL(app)
 
-#Loading the MODEL
-#def sensitivity(y_true, y_pred):
- # true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
-  #possible_positives = K.sum(K.round(K.clip(y_true, 0, 1)))
-  #return true_positives / (possible_positives + K.epsilon())
-
-#def specificity(y_true, y_pred):
- # true_negatives = K.sum(K.round(K.clip((1-y_true) * (1-y_pred), 0, 1)))
-  #possible_negatives = K.sum(K.round(K.clip(1-y_true, 0, 1)))
-  #return true_negatives / (possible_negatives + K.epsilon())
-
-#def fmed(y_true, y_pred):
- # spec = specificity(y_true, y_pred)
-  #sens = sensitivity(y_true, y_pred)
-  #fmed = 2 * (spec * sens)/(spec+sens+K.epsilon())
-  #return fmed
-
-#def f1(y_true, y_pred):
- # true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
- # possible_positives = K.sum(K.round(K.clip(y_true, 0, 1)))
- # predicted_positives = K.sum(K.round(K.clip(y_pred, 0, 1)))
- # precision = true_positives / (predicted_positives + K.epsilon())
- # recall = true_positives / (possible_positives + K.epsilon())
- # f1_val = 2*(precision*recall)/(precision+recall+K.epsilon())
- # return f1_val
-
-
-#def load_model():
- #     global model
-  #    dependancies={
-   #       'sensitivity':sensitivity,
-    #      'specificity':specificity,
-     #     'fmed':fmed,
-      #    'f1':f1
-      #}
-      #model = tf.keras.models.load_model('3-conv-CNN.h5', custom_objects=dependancies, compile=True, options=None)
-      #print("Model loaded successfully!")
-
-#def preprocessing(image_location):
- #   image = tf.keras.preprocessing.image.load_img(image_location, color_mode="rgb",target_size=(150,150))
-  #  input_arr = keras.preprocessing.image.img_to_array(image)
-   # input_arr = np.array([input_arr])  # Convert single image to a batch.
-    #return input_arr
-   
-
-
-#print(" *Loading model.... ")
-#load_model()
 
 
 
