@@ -55,10 +55,12 @@ height: 60px;
      <hr>
      <div class="form-group mt-3">
        <label class="mr-2">Upload Image :</label>
-       <input type="file" name="image" id="image">
+       <input type="file" name="image" id="image" required>
      </div>
      <hr>
-     <button type="submit" class="btn btn-dark">Submit</button>
+     <button type="submit" class="btn btn-dark">Predict</button>
+
+     <h3 name="predict" class="h3 mb-3 font-weight-normal">Probability for TB disease:  {{ prediction }}</h3>
    </form>
 </div> 
 
