@@ -1,19 +1,16 @@
 
-from email.mime import image
-from pyexpat import model
+
 from urllib import request
 from flask import Flask,render_template,flash,session,request
 from passlib.hash import sha256_crypt
 from flask_mysqldb import MySQL
 import MySQLdb.cursors
 import re
-import pandas as pd
 import tensorflow as tf
 import numpy as np
-import keras
 import os
 import os.path
-from keras import backend as K
+from keras import backend as K  
 
 
 
@@ -30,7 +27,56 @@ app.config['MYSQL_DB'] =  'tb_detection_system'
 UPLODED_IMAGES = r'C:\xampp\htdocs\TB_det_CNN\static\uploaded'
 db=MySQL(app)
 
+##############################################################################################
+#LOADING THE MODEL
+def sensitivity(y_true, y_pred):
+  true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
+  possible_positives = K.sum(K.round(K.clip(y_true, 0, 1)))
+  return true_positives / (possible_positives + K.epsilon())
 
+def specificity(y_true, y_pred):
+  true_negatives = K.sum(K.round(K.clip((1-y_true) * (1-y_pred), 0, 1)))
+  possible_negatives = K.sum(K.round(K.clip(1-y_true, 0, 1)))
+  return true_negatives / (possible_negatives + K.epsilon())
+
+def fmed(y_true, y_pred):
+  spec = specificity(y_true, y_pred)
+  sens = sensitivity(y_true, y_pred)
+  fmed = 2 * (spec * sens)/(spec+sens+K.epsilon())
+  return fmed
+
+def f1(y_true, y_pred):
+  true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
+  possible_positives = K.sum(K.round(K.clip(y_true, 0, 1)))
+  predicted_positives = K.sum(K.round(K.clip(y_pred, 0, 1)))
+  precision = true_positives / (predicted_positives + K.epsilon())
+  recall = true_positives / (possible_positives + K.epsilon())
+  f1_val = 2*(precision*recall)/(precision+recall+K.epsilon())
+  return f1_val
+
+
+def get_model():
+      global model
+      dependancies={
+          'sensitivity':sensitivity,
+          'specificity':specificity,
+          'fmed':fmed,
+          'f1':f1
+      }
+      model = tf.keras.models.load_model('3-conv-CNN.h5', custom_objects=dependancies, compile=True, options=None)
+      print("Model loaded successfully!")
+
+
+def preprocessImage(image_path):
+    image = tf.keras.utils.load_img(image_path, color_mode="rgb",target_size=(150,150))
+    input_arr = tf.keras.utils.img_to_array(image)
+    input_arr = np.array([input_arr])  # Convert single image to a batch.
+    return input_arr
+    
+
+
+print(" * Loading model.... ")
+get_model()
 
 
 @app.route('/homepage')
@@ -137,18 +183,46 @@ def register():
 def upload():
     return render_template("form.html")
 
+CLASSES=['NORMAL','TURBERCULOSIS']
 @app.route('/predict',methods=['GET','POST'])
 def predict():
  #imagefile=request.form.get('imagefile')
  #image_path= "./static/uploaded"
  #imagefile.save(image_path)
      if request.method == 'POST':
+       
+        
         image_file = request.files['image']
         if image_file:
             image_path= os.path.join(UPLODED_IMAGES, image_file.filename)
             image_file.save(image_path)
+            processed_img=preprocessImage(image_path)
+            output = model.predict(processed_img)
 
-     return render_template ('index.html')
+           # output = CLASSES [ int (output [0] [1]) ]
+
+
+            first_name = request.form['first_name']
+            surname = request.form['surname']
+            gender = request.form['gender']
+            age = request.form['age']
+            email_address = request.form['email_address']
+            phone_number = request.form['phone_number']
+            image = image_path
+            prediction = output
+            doc_id =session['id']
+            p_id = session['id']
+            
+
+            #storing data in the database
+            cursor = db.connection.cursor(MySQLdb.cursors.DictCursor)
+
+            cursor.execute('INSERT INTO patients VALUES (NULL,%s, %s, %s, %s, %s ,%s, %s , %s)', (first_name,surname,gender,age,email_address,phone_number,doc_id,prediction))
+            db.connection.commit()
+            cursor.execute('INSERT INTO radiographs VALUES (NULL, %s ,%s, %s,%s)' , (image,p_id,doc_id,prediction))
+            db.connection.commit()
+
+     return render_template ('form.html',prediction=output,image_path=image_file.filename)
 
 
      
