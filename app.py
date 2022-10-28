@@ -24,10 +24,10 @@ app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] =  'tb_detection_system'
-UPLODED_IMAGES = r'C:\xampp\htdocs\TB_det_CNN\static\uploaded'
+UPLODED_IMAGES = r'C:\xampp\htdocs\TB_det_CNN\static\uploaded' #where uploaded images should be saved
 db=MySQL(app)
 
-##############################################################################################
+
 #LOADING THE MODEL
 def sensitivity(y_true, y_pred):
   true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
@@ -78,7 +78,6 @@ def preprocessImage(image_path):
 print(" * Loading model.... ")
 get_model()
 
-
 @app.route('/homepage')
 def homepage():
     return render_template('index.html')     
@@ -114,7 +113,6 @@ def login():
         hashed_pass=sha256_crypt.hash(password)
         unhashed_pass=sha256_crypt.verify("password",hashed_pass)
 
-        
         # Check if account exists in DB using MySQL
         cursor = db.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute('SELECT * FROM doctors WHERE username = %s AND password = %s', (username, unhashed_pass,))
