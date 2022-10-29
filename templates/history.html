@@ -1,1 +1,39 @@
 <!--Contains details about the history of patients,displays from the results table-->
+
+{% extends 'macro.html' %}
+
+{% block title %}History{% endblock %}
+
+{% block content %}
+<h2>History Page</h2>
+<div>
+    <p>Previously uploaded patient data:</p>
+    <table class = "table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">First Name</th>
+                <th scope="col">Surname</th>
+                <th scope="col">Gender</th>
+                <th scope="col">Age</th>
+                <th scope="col">Email Adress</th>
+                <th scope="col">Phone Number</th>
+                <th scope="col"> Result</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for patient in patient %}
+               <tr>
+                <td>{{ patient['first_name']}}</td>
+                <td>{{ patient['surname']}}</td>
+                <td>{{ patient['gender']}}</td>
+                <td>{{ patient['age']}}</td>
+                <td>{{ patient['email_address']}}</td>
+                <td>{{ patient['phone_number']}}</td>
+                <td>{{ patient['result']}}</td>
+
+               </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
