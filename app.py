@@ -1,7 +1,7 @@
 
 
 from urllib import request
-from flask import Flask,render_template,flash,session,request
+from flask import Flask, redirect,render_template,flash,session,request, url_for
 from passlib.hash import sha256_crypt
 from flask_mysqldb import MySQL
 import MySQLdb.cursors
@@ -171,9 +171,27 @@ def register():
     # Show registration form with message (if any)
     return render_template('register.html', msg=msg)
 
-#@app.route('/profile')
-#def profile():
- #   return render_template("profile.html")
+@app.route('/profile')
+def profile():
+    # Check if user is loggedin
+    if 'loggedin' in session:
+        # We need all the account info for the user so we can display it on the profile page
+        cursor = db.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('SELECT * FROM doctors WHERE doc_id = %s', (session['id'],))
+        user = cursor.fetchone()
+        # Show the profile page with account info
+        return render_template('profile.html', user=user)
+    # User is not loggedin redirect to login page
+    return redirect(url_for('login'))
+
+@app.route('/history')
+def history():
+    cursor = db.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute('SELECT * FROM patients')
+    patient=cursor.fetchall()
+    return render_template('history.html',patient=patient)
+
+    #return render_template("history.html")
 
 
 
@@ -219,6 +237,7 @@ def predict():
             db.connection.commit()
             cursor.execute('INSERT INTO radiographs VALUES (NULL, %s ,%s, %s,%s)' , (image,p_id,doc_id,prediction))
             db.connection.commit()
+            
 
      return render_template ('form.html',prediction=output,image_path=image_file.filename)
 
