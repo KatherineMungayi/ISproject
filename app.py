@@ -228,6 +228,13 @@ def predict():
             prediction = output
             doc_id =session['id']
             p_id = session['id']
+
+            if output > [[ 0.5]] :
+                prediction = 'TUBERCULOSIS'
+            elif output < [[0.5]]:
+                prediction = 'NORMAL'
+           
+
             
 
             #storing data in the database
