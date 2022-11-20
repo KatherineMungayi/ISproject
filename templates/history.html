@@ -8,7 +8,8 @@
 <h2>History Page</h2>
 <div>
     <p>Previously uploaded patient data:</p>
-    <table class = "table table-striped">
+    
+    <table class = "table table-striped table-hover align-middle ">
         <thead>
             <tr>
                 <th scope="col">First Name</th>
@@ -18,6 +19,7 @@
                 <th scope="col">Email Adress</th>
                 <th scope="col">Phone Number</th>
                 <th scope="col"> Result</th>
+                
             </tr>
         </thead>
         <tbody>
@@ -30,10 +32,13 @@
                 <td>{{ patient['email_address']}}</td>
                 <td>{{ patient['phone_number']}}</td>
                 <td>{{ patient['result']}}</td>
+                
+                
 
                </tr>
             {% endfor %}
         </tbody>
     </table>
+
 
 {% endblock %}
