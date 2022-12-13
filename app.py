@@ -215,7 +215,7 @@ def predict():
             processed_img=preprocessImage(image_path)
             output = model.predict(processed_img)
 
-           # output = CLASSES [ int (output [0] [1]) ]
+            output = CLASSES[int(output [0][0])]
 
 
             first_name = request.form['first_name']
@@ -229,10 +229,10 @@ def predict():
             doc_id =session['id']
             p_id = session['id']
 
-            if output > [[ 0.5]] :
-                prediction = 'TUBERCULOSIS'
-            elif output < [[0.5]]:
-                prediction = 'NORMAL'
+           # if output > [[ 0.5]] :
+            #    prediction = 'TUBERCULOSIS'
+            #elif output < [[0.5]]:
+            #    prediction = 'NORMAL'
            
 
             
