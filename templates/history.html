@@ -1,4 +1,4 @@
-<!--Contains details about the history of patients,displays from the results table present in the database-->
+<!--Contains details about the history of patients,displays from the results table-->
 
 {% extends 'macro.html' %}
 
@@ -9,7 +9,7 @@
 <div>
     <p>Previously uploaded patient data:</p>
     
-    <table class = "table table-striped table-hover align-middle ">
+    <table class = "table table-striped">
         <thead>
             <tr>
                 <th scope="col">First Name</th>
@@ -19,19 +19,26 @@
                 <th scope="col">Email Adress</th>
                 <th scope="col">Phone Number</th>
                 <th scope="col"> Result</th>
+                <th scope="col">Action</th>
                 
             </tr>
         </thead>
         <tbody>
             {% for patient in patient %}
                <tr>
-                <td>{{ patient['first_name']}}</td>
-                <td>{{ patient['surname']}}</td>
-                <td>{{ patient['gender']}}</td>
-                <td>{{ patient['age']}}</td>
-                <td>{{ patient['email_address']}}</td>
-                <td>{{ patient['phone_number']}}</td>
-                <td>{{ patient['result']}}</td>
+                <td class="w-25">{{ patient['first_name']}}</td>
+                <td class="w-25">{{ patient['surname']}}</td>
+                <td class="w-25">{{ patient['gender']}}</td>
+                <td class="w-25">{{ patient['age']}}</td>
+                <td class="w-25">{{ patient['email_address']}}</td>
+                <td class="w-25">{{ patient['phone_number']}}</td>
+                <td class="w-25">{{ patient['result']}}</td>
+                <td class="w-25"><button type="button" class="btn btn-dark">View </button></td>
+                <td class="w-25"><button type="button" class="btn btn-primary">Edit </button></td>
+
+                    
+             
+            
                 
                 
 
